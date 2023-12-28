@@ -1,0 +1,24 @@
+{% extends 'main.html' %}
+
+{% block content %}
+    <h1>Payment info for {{ user.username }}</h1>
+    {% if paymentinfo != None %}
+    <div>
+    </div>
+    <p>Swish: {{ paymentinfo.phone_number }}</p>
+    <p>Bank Transfer: {{ paymentinfo.bankaccountnr }}</p>
+    {% else %}
+        <p>This user has no payment information available, try reaching them via the chat</p>
+    {% endif %}
+
+    <button onclick="goBack()">Go Back</button>
+
+    <script>
+    function goBack() {
+        // Use the window.history object to navigate back
+        window.history.back();
+    }
+</script>
+
+{% endblock %}
+

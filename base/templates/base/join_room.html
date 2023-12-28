@@ -1,0 +1,10 @@
+<h1>Input the name of the group you want to join</h1>
+
+<div class = "join-form">
+        <form method = "POST" action="">
+            {% csrf_token %}
+            <input type = "text" name = "body" placeholder="Groupname...">
+
+        </form>
+
+    </div>

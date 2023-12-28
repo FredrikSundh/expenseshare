@@ -1,0 +1,168 @@
+{% extends 'main.html' %}
+{% load mathfilters %}
+
+
+{
+
+{% block content %}
+
+
+
+
+<style>
+
+    .room-container{
+        display: grid;
+        grid-template-columns: 3fr 1fr;
+    }
+
+</style>
+
+<div class ="room-container">
+    <div>
+
+
+
+<h1>{{ room.name }}</h1>
+    <p>{{ room.description }}</p>
+
+<!-- Add Hidden forms HERE -->
+
+    <script>
+    function setButtonType(buttonType) {
+        // Set the value of the hidden input field based on the clicked button
+        document.getElementById('buttonTypeInput').value = buttonType;
+        document.getElementById('buttonForm').submit();
+    }
+</script>
+
+            <form id = "buttonForm" method="POST" action="">
+            {% csrf_token %}
+            <input type="hidden" name="button_type" id="buttonTypeInput" value="">
+            <button class="test1" type="button" onclick="setButtonType('showMessages')">Show Messages</button>
+            <button class="test2" type="button" onclick="setButtonType('showExpenses')">Show Group Expenses</button>
+        </form>
+
+
+{% if showing == "Chat" %}
+    <div>
+        <h3>Conversation</h3>
+        <hr>
+
+        {% for message in room_messages %}
+            {% if request.user == message.user %}
+            <a href = "{% url 'delete-message' message.id %}">Delete</a>
+            {% endif %}
+            <small>@{{ message.user.username }}  {{ message.created | timesince}} ago</small>
+            <p>{{ message.body }}</p>
+            <hr>
+
+
+
+        {% endfor %}
+
+    </div>
+    {% if request.user.is_authenticated %}
+    <div class = "comment-form">
+        <form method = "POST" action="">
+            {% csrf_token %}
+            <input type = "text" name = "body" placeholder="write your message here...">
+
+        </form>
+
+    </div>
+    {% endif %}
+    </div>
+    <!-- Showing messages if statement ends here -->
+{% endif %}
+
+<!-- This Div should contain all the expense objects -->
+{% if showing == 'Expenses' %}
+    <div>
+    <div>
+         <h3>Group Expenses</h3>
+            <button type="button" onclick="setButtonType('createExpense')">Add Expense</button>
+            <button type="button" onclick="setButtonType('showDebts')">Show Balances</button>
+    </div>
+
+        {% for expense in expenses %}
+
+            <div class = "expense-details">
+                <small>@{{ expense.payer.username }}</small>
+                {% if expense.payer != request.user %}
+                    <a href = "{% url 'approve-expense' expense.id %}">
+                        <button>Approve</button>
+                    </a>
+
+                {% endif %}
+                <p>Expense amount: {{ expense.amount }}: kr</p>
+                <p>Description: {{ expense.description }}</p>
+                <p>Expense approved by {{ expense.approvedBy.all | length }} / {{ participants | length }} members</p>
+                <hr>
+
+            </div>
+
+        {% endfor %}
+
+
+    </div>
+
+    </div>   <!-- Closes starting Div at the top -->
+
+{% endif %}
+
+{% if showing == 'createExpense' %}
+    <div>
+        <h3>Create ExpenseForm</h3>
+            <form method = "POST" accept="">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            <input type = "submit" value = "Submit"/>
+
+
+            </form>
+    </div>
+    </div>
+
+{% endif %}
+
+
+{% if showing == 'debts' %}
+    {% for key,value in debts.items %}
+        <div class = "debt-container">
+
+        <div class = "debt-info">
+            {% if value > 0 %}
+                <p>You owe {{ key }}  {{ value }} Kr</p>
+            {% else %}
+                <p>{{ key }} owes you {{ value | abs }} Kr</p>
+            {% endif %}
+        </div>
+            <div class = "button-container">
+                <a href = "{% url 'paymentinfo' key %}">
+                    <button>Show Payment Details</button>
+                </a>
+        </div>
+
+        </div>
+
+    {% endfor %}
+    </div>
+{% endif %}
+    <div>
+        <h3>participants</h3>
+        <hr>
+
+        {% for user in participants %}
+            <div>
+            <p>@{{ user.username }}</p>
+
+            </div>
+
+        {% endfor %}
+
+    </div>
+</div>
+
+{% endblock %}

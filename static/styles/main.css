@@ -1,0 +1,71 @@
+body {
+    background-color:  #000000;
+    color: white;
+
+
+
+}
+
+    button{
+        background-color: #006b1b;
+        padding: 10px 20px; /* Adjust padding for size */
+        border-radius: 5px; /* Add rounded corners */
+        color: white;
+    }
+
+    a {
+        display: inline-block;
+        color: #1E90FF;
+        margin: 0;
+        padding: 0;
+}
+
+    .navbarContainer {
+        background-color: #333333; /* Set the background color for the navbar */
+        padding: 10px;
+        color: #fff; /* Set the text color for the navbar */
+
+    }
+
+    .groupHeader {
+        text-align: center;
+        font-size: 35px;
+    }
+
+    .expense-details {
+        /* Your styles go here */
+        background-color: #333333;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 8px; /* You can adjust the pixel value based on your preference */
+}
+
+
+    .rooms {
+        background-color: #333333;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 8px; /* You can adjust the pixel value based on your preference */
+        margin-right: 15px;
+    }
+
+    .dashboardHeader {
+                background-color: #333333;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 8px; /* You can adjust the pixel value based on your preference */
+    }
+
+
+.debt-info {
+    display: inline-block;
+}
+
+.button-container {
+    display: inline-block;
+}
+
+
+
+
+

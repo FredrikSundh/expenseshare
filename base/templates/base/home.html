@@ -1,0 +1,63 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<h1 class = "dashboardHeader">Dashboard</h1>
+
+
+    <style>
+        .home-container{
+            display: grid;
+            grid-template-columns: 3fr 1fr;
+        }
+
+    </style>
+
+    <div class = "home-container">
+
+
+        <div>
+
+
+
+            <!--Rooms Container-->
+    <div>
+    <h2 class = "groupHeader">Your Groups</h2>
+    <a href ="{% url 'create-room' %}">Create Room</a>
+            {% for room in rooms %}
+                {% if request.user in room.participants.all %}
+                <div class = "rooms">
+                    {% if request.user == room.host %}
+                    <a href = "{%  url 'update-room' room.id %}"> Edit</a>
+                    <a href = "{% url 'delete-room' room.id %}"> Delete</a>
+                    {% endif %}
+                    <span> @{{room.host.username}}</span>
+                    <h5>{{room.id}} -- <a href ="{% url 'room' room.id %}"> {{room.name}}</a></h5>
+                <hr>
+                </div>
+                {% endif %}
+            {% endfor %}
+    </div>
+
+
+        </div>
+
+    <div>
+        <h3>Your Group Activity</h3>
+        <hr>
+        {% for message in room_messages %}
+            <div>
+                <small>@{{ message.user.username }} {{ message.created | timesince}} ago</small>
+                <small>replied to "{{ message.room }}"</small>
+
+                <p>{{ message }}</p>
+                {% if request.user == message.user %}
+                    <a href = "{% url 'delete-message' message.id %}">Delete</a>
+                {% endif %}
+                <hr>
+            </div>
+
+        {% endfor %}
+    </div>
+
+    </div>
+{% endblock %}
