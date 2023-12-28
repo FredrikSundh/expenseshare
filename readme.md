@@ -2,7 +2,7 @@ README
 
 Instruction to use this project
 
-1. clone the project and open it in django
+1. clone the project and open it in pycharm
 2. Activate the venv by running the script .env/Scripts/Activate
 3. pip install all requirements from requirements.txt using python -m pip install -r requirements.txt
 4. after this you should run "python manage.py makemigrations" and "python manage.py migrate"
